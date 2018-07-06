@@ -1,7 +1,9 @@
+require('dotenv').config(); //to set process.env variables in local environment
 const express = require("express");
 const bodyParser = require("body-parser");
 const MongoClient = require("mongodb").MongoClient;
 const assert = require("assert");
+
 
 const app = express();
 app.set("view engine", "ejs");
@@ -10,12 +12,12 @@ app.use(bodyParser({extended: true}));
 
 
 //Database config
-const DATABASE = "CRUDapp";
-const URL = "mongodb://localhost:27017/"
+const DATABASE = "crudapp";
+const DATABASE_URL = process.env.DATABASE_URL
 
 //Seed database with a few documents
 const seedDB = function (callback) {
-    MongoClient.connect(URL, function(err, client){
+    MongoClient.connect(DATABASE_URL, function(err, client){
         assert.equal(err, null);
 
         const db = client.db(DATABASE);
@@ -50,7 +52,7 @@ const insertDocuments = function(db, callback) {
 
 //CREATE - Insert a document into the Database
 const insertDoc = function (doc, callback) {
-    MongoClient.connect(URL, function(err, client){
+    MongoClient.connect(DATABASE_URL, function(err, client){
         assert.equal(err, null);
 
         const db = client.db(DATABASE);
@@ -69,7 +71,7 @@ const insertDoc = function (doc, callback) {
 
 //READ Database
 const readDB = function (callback) {
-    MongoClient.connect(URL, function(err, client){
+    MongoClient.connect(DATABASE_URL, function(err, client){
         assert.equal(err, null);
 
         const db = client.db(DATABASE);
@@ -142,8 +144,8 @@ app.post("/create", function(req, res){
 })
 
 
-
 //Start CRUDapp
-app.listen(3000, function() {
-    console.log("App started on port 3000")
+app.listen(process.env.PORT, process.env.IP, function() {
+    console.log("App started on port " + process.env.PORT)
+    console.log("Connected to database: " + process.env.DATABASE_URL)
 })

@@ -4,7 +4,8 @@
   "description": "basic crud app with node.js, express.js and mongoDB as well as an web interface using ejs templating engine.",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
   },
   "keywords": [
     "node",
