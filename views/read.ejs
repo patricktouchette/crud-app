@@ -1,0 +1,23 @@
+<% include header %>
+
+<main>
+
+    <h1>The READ Operation!</h1>
+    <p>This page reads all the movie entries inside the mongoDB database and displays them</p>
+
+
+    <section class="videos">
+        <% docs.forEach(function(doc) { %>
+            <article class="video-thumb">
+                <img src="<%= doc.poster %>" alt="movie-poster">
+                <h4><%= doc.title %></h4>
+                <p><%= doc.year %></p>
+            </article>
+        <% }) %>
+
+    </section>
+
+
+</main>
+
+<% include footer %>

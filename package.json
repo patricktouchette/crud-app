@@ -1,0 +1,23 @@
+{
+  "name": "crud-app",
+  "version": "1.0.0",
+  "description": "basic crud app with node.js, express.js and mongoDB as well as an web interface using ejs templating engine.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "node",
+    "express",
+    "mongodb",
+    "ejs"
+  ],
+  "author": "Patrick Touchette",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "ejs": "^2.6.1",
+    "express": "^4.16.3",
+    "mongodb": "^3.0.10"
+  }
+}
