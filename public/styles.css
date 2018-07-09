@@ -111,6 +111,10 @@ main > h1, main > p {
     align-items: center;
 }
 
+.video-thumb > img {
+    width: 100%;
+}
+
 .video-thumb > h4, .video-thumb > p {
     margin: 5px;
 }
