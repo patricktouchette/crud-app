@@ -84,22 +84,14 @@ const readDB = function (callback) {
         const db = client.db(DATABASE);
         console.log("Read Operation")
 
-        readDocuments(db, function(docs) {
+        const collection = db.collection('movies');
+        collection.find({}).toArray(function(err, docs){
+            assert.equal(err, null);
             console.log("Found " + docs.length + " documents")
             client.close();
             callback(docs)
         })
     })
-}
-
-//Read documents from Database
-const readDocuments = function(db, callback) {
-    const collection = db.collection('movies');
-
-    collection.find({}).toArray(function(err, docs){
-        assert.equal(err, null);
-        callback(docs);
-    });
 }
 
 
