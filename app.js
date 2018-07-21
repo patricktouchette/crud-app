@@ -94,6 +94,29 @@ const readDB = function (callback) {
     })
 }
 
+//UPDATE DATABASE
+const updateDB = function (data, callback) {
+    MongoClient.connect(DATABASE_URL, function(err, client) {
+        assert.equal(err, null);
+
+        const db = client.db(DATABASE);
+        console.log("Update Operation")
+
+        const collection = db.collection('movies');
+        collection.update(
+            { _id: data.movieID },
+            {
+                title: data.title,
+                year: data.year,
+                imdb: data.imdb,
+                poster: data.poster
+            }
+        );
+        console.log(data);
+        callback();
+    })
+}
+
 
 
 //ROUTES
@@ -142,6 +165,14 @@ app.post("/create", function(req, res){
     })
 })
 
+
+app.post("/update/:movieID", function(req, res) {
+    var data = req.body
+    updateDB(data, function() {
+        res.render("update");
+    })
+
+})
 
 //Start CRUDapp
 app.listen(process.env.PORT, process.env.IP, function() {
