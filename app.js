@@ -2,6 +2,7 @@ require('dotenv').config(); //to set process.env variables in local environment
 const express = require("express");
 const bodyParser = require("body-parser");
 const MongoClient = require("mongodb").MongoClient;
+var ObjectID = require('mongodb').ObjectID;
 const assert = require("assert");
 
 
@@ -101,23 +102,35 @@ const updateDB = function (data, callback) {
 
         const db = client.db(DATABASE);
         console.log("Update Operation")
+        console.log(data);
+
 
         const collection = db.collection('movies');
         collection.update(
-            { _id: data.movieID },
+            // { _id: ObjectId(data._id) },
+            { title: data.title },
             {
                 title: data.title,
                 year: data.year,
-                imdb: data.imdb,
                 poster: data.poster
             }
         );
-        console.log(data);
         callback();
+
     })
 }
 
-
+// db.movies.find(
+//     { "5b3d852d7353ac2b2c0c89d1"})
+//
+// db.movies.update(
+//     { _id: ObjectId("5b3d852d7353ac2b2c0c89d1") },
+//     {
+//         title: "UPDATED",
+//         year: 1999,
+//         poster: "WWW.IMAGE.com"
+//     }
+// );
 
 //ROUTES
 //=================
@@ -138,7 +151,9 @@ app.get("/read", function(req, res){
 })
 
 app.get("/update", function(req, res){
-    res.render("update");
+    readDB(function(docs) {
+        res.render("update", {docs: docs});
+    });
 })
 
 app.get("/delete", function(req, res){
@@ -166,10 +181,12 @@ app.post("/create", function(req, res){
 })
 
 
-app.post("/update/:movieID", function(req, res) {
+app.post("/update", function(req, res) {
     var data = req.body
     updateDB(data, function() {
-        res.render("update");
+        readDB(function(docs) {
+            res.render("update", {docs: docs});
+        });
     })
 
 })
@@ -177,5 +194,5 @@ app.post("/update/:movieID", function(req, res) {
 //Start CRUDapp
 app.listen(process.env.PORT, process.env.IP, function() {
     console.log("App started on port " + process.env.PORT)
-    console.log("Connected to database: " + process.env.DATABASE_URL)
+    console.log("Connected to database")
 })

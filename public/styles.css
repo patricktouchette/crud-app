@@ -134,12 +134,12 @@ main > h1, main > p {
 form {
     display: flex;
     flex-direction: column;
-    margin: 0px 4rem;
+    margin: 0px 0rem;
 }
 
 form > input, form > button {
-    margin: 10px;
-    width: 100%;
+    margin: 2%;
+    width: 96%;
 }
 
 /* Footer */
