@@ -2,7 +2,7 @@ require('dotenv').config(); //to set process.env variables in local environment
 const express = require("express");
 const bodyParser = require("body-parser");
 const MongoClient = require("mongodb").MongoClient;
-var ObjectID = require('mongodb').ObjectID;
+const ObjectID = require('mongodb').ObjectID;
 const assert = require("assert");
 
 
@@ -102,35 +102,38 @@ const updateDB = function (data, callback) {
 
         const db = client.db(DATABASE);
         console.log("Update Operation")
-        console.log(data);
-
 
         const collection = db.collection('movies');
         collection.update(
-            // { _id: ObjectId(data._id) },
-            { title: data.title },
+            { _id: ObjectID(data._id) },
             {
                 title: data.title,
                 year: data.year,
                 poster: data.poster
-            }
+            },
+            callback()
         );
-        callback();
 
     })
 }
 
-// db.movies.find(
-//     { "5b3d852d7353ac2b2c0c89d1"})
-//
-// db.movies.update(
-//     { _id: ObjectId("5b3d852d7353ac2b2c0c89d1") },
-//     {
-//         title: "UPDATED",
-//         year: 1999,
-//         poster: "WWW.IMAGE.com"
-//     }
-// );
+//DELETE an entry
+const deleteEntry = function ( id, callback) {
+    MongoClient.connect(DATABASE_URL, function(err, client) {
+        assert.equal(err, null);
+
+        const db = client.db(DATABASE);
+        console.log("Delete Operation")
+
+        const collection = db.collection("movies");
+        collection.deleteOne( { _id: ObjectID(id)}, function(err, res) {
+            assert.equal(err, null);
+            console.log("Deleted " + res);
+            callback()
+        })
+    })
+}
+
 
 //ROUTES
 //=================
@@ -157,7 +160,9 @@ app.get("/update", function(req, res){
 })
 
 app.get("/delete", function(req, res){
-    res.render("delete");
+    readDB(function(docs) {
+        res.render("delete", {docs: docs});
+    });
 })
 
 app.get("/reseed", function(req, res){
@@ -174,9 +179,7 @@ app.post("/create", function(req, res){
         poster : req.body.poster
     }
     insertDoc(doc, function() {
-        readDB(function(docs) {
-            res.render("read", {docs: docs});
-        });
+        res.redirect("/read");
     })
 })
 
@@ -184,11 +187,15 @@ app.post("/create", function(req, res){
 app.post("/update", function(req, res) {
     var data = req.body
     updateDB(data, function() {
-        readDB(function(docs) {
-            res.render("update", {docs: docs});
-        });
+        res.redirect("/update");
     })
+})
 
+app.post("/delete", function(req, res) {
+    var id = req.body._id
+    deleteEntry(id, function() {
+        res.redirect("/delete");
+    })
 })
 
 //Start CRUDapp

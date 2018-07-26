@@ -3,7 +3,22 @@
 <main>
     <h1>The DELETE operation!</h1>
 
-    <h2>UNDER CONSTRUCTION, COMING SOON</h2>
+    <p>This page lets you delete any movie you like</p>
+
+    <section class="videos">
+        <% docs.forEach(function(doc) { %>
+            <article class="video-thumb">
+                <img src="<%= doc.poster %>" alt="movie-poster">
+                <h4><%= doc.title %></h4>
+                <p><%= doc.year %></p>
+                <form action="/delete" method="POST">
+                    <input type="hidden" name="_id" value="<%= doc._id %>">
+                    <button type="submit">DELETE</button>
+                </form>
+            </article>
+        <% }) %>
+
+    </section>
 
 </main>
 
