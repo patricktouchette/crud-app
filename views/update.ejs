@@ -5,20 +5,12 @@
     <br><p>This page lets you update the movie entries. Simply edit the fields and push update.</p><br>
 
 
-    <!-- <h4>Movie Update Form</h4>
-    <form action="/update" method="POST">
-        <input type="text" required placeholder="Movie Title">
-        <input type="text" required placeholder="Year">
-        <input type="text" required placeholder="Img URL">
-        <button class="submit">Submit</button>
-    </form> -->
-
     <section class="videos">
         <% docs.forEach(function(doc) { %>
             <article class="video-thumb">
                 <img src="<%= doc.poster %>" alt="movie-poster">
                 <form action="/update" method="POST">
-                    <input type="text" required value="<%= doc._id %>" name="_id" placeholder="_id">
+                    <input type="hidden" required value="<%= doc._id %>" name="_id" placeholder="_id">
                     <input type="text" required value="<%= doc.title %>" name="title" placeholder="title">
                     <input type="text" required value="<%= doc.year %>" name="year" placeholder="year">
                     <input type="text" required value="<%= doc.poster %>" name="poster" placeholder="Img URL">
