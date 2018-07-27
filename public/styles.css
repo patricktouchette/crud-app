@@ -64,7 +64,7 @@ nav a:hover {
     flex-direction: column;
 }
 
-.button-section > button {
+button {
     background-color: #b31120;
     color: white;
     border: solid 0px black;
@@ -73,7 +73,7 @@ nav a:hover {
     border-radius: 5px;
 }
 
-.button-section > button > a {
+button > a {
     text-decoration: none;
     color: white;
 

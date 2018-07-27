@@ -128,7 +128,6 @@ const deleteEntry = function ( id, callback) {
         const collection = db.collection("movies");
         collection.deleteOne( { _id: ObjectID(id)}, function(err, res) {
             assert.equal(err, null);
-            console.log("Deleted " + res);
             callback()
         })
     })
