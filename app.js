@@ -22,15 +22,15 @@ const seedDB = function (callback) {
         assert.equal(err, null);
 
         const db = client.db(DATABASE);
+        console.log("Seed Database Operation started")
+
 
         db.dropDatabase(function(err, result){
             assert.equal(null, err);
-        })
-        console.log("Seed Database Operation started")
-
-        insertDocuments(db, function() {
-            client.close();
-            callback();
+            insertDocuments(db, function() {
+                client.close();
+                callback();
+            })
         })
     })
 }
